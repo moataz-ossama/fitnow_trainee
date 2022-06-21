@@ -1,7 +1,6 @@
 // @dart=2.9
 import 'package:conditional_builder/conditional_builder.dart';
-import 'package:fitnow_trainee/controller/cubit/coach_packages_controller/coach_packages_model.dart';
-import 'package:fitnow_trainee/features/freelance/offer_description.dart';
+
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import '../../controller/cubit/coach_packages_controller/coach_packages_cubit.dart';
@@ -225,3 +224,9 @@ Widget programDescriptionbuilder() =>
         ],
       ),
     );
+/*// To parse this JSON data, do
+//
+//     final traineeJobs = traineeJobsFromJson(jsonString);
+
+
+*/

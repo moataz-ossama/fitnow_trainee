@@ -1,5 +1,4 @@
 import 'package:conditional_builder/conditional_builder.dart';
-import 'package:dotted_border/dotted_border.dart';
 import 'package:fitnow_trainee/controller/cubit/news_feed_controller/News_feed_cubit.dart';
 import 'package:fitnow_trainee/controller/cubit/news_feed_controller/news_feed_states.dart';
 import 'package:flutter/material.dart';
@@ -17,26 +16,12 @@ class Post extends StatefulWidget {
 class _PostState extends State<Post> {
   var formtitlecontroller = TextEditingController();
   var descriptioncontroller = TextEditingController();
-  var firstskillecontroller = "mamdakd";
-  var secondskillcontroller = "dad[pald";
+  var firstskillecontroller ;
+  var secondskillcontroller;
   var pricecontroller = TextEditingController();
   Color workoutcolor = ProjectColors.dark_grey_color;
   Color nuitrationcolor = ProjectColors.dark_grey_color;
   Color bothcolor = ProjectColors.dark_grey_color;
-  String _dropdownValue = "Workout";
-  List<String> dropDownOptions = [
-    "Workout",
-    "Nuitration",
-    "Workout & Nuitration"
-  ];
-
-  void dropdownCallback(String? selectedValue) {
-    if (selectedValue is String) {
-      setState(() {
-        _dropdownValue = selectedValue;
-      });
-    }
-  }
 
   @override
   Widget build(BuildContext context) {
