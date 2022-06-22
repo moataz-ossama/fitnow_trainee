@@ -36,7 +36,8 @@ class _LoginScreenState extends State<LoginScreen> {
   Widget build(BuildContext context) {
     return BlocProvider(
       create: (BuildContext context) => Logincubit(),
-      child: BlocConsumer<Logincubit, Loginstates>(builder: (context, state) {
+      child: BlocConsumer<Logincubit, Loginstates>(
+          builder: (context, state) {
         return Scaffold(
           appBar: AppBar(
             title: Text(
@@ -207,6 +208,7 @@ class _LoginScreenState extends State<LoginScreen> {
             token = state.loginmodel.userData.access_token;
             if (state.loginmodel.status == "success") {
               print(state.loginmodel.status);
+              print(state.loginmodel.userData.id);
               SharedPreferences sharedpref =
                   await SharedPreferences.getInstance();
               sharedpref.setString(

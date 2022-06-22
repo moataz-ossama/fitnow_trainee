@@ -24,7 +24,7 @@ class _InboxClientState extends State<InboxClient> {
       appBar: AppBar(
         backgroundColor: Colors.grey[300],
         elevation: 0.0,
-        titleSpacing: 10,
+        titleSpacing: 0,
         title: Row(
           children: [
             //circle avatar contain the photo of the coach
@@ -32,13 +32,13 @@ class _InboxClientState extends State<InboxClient> {
               child: Row(children: [
                 Stack(
                   alignment: AlignmentDirectional.bottomEnd,
-                  children: [
+                  children: const [
                     CircleAvatar(
                       radius: 20.0,
                       backgroundImage: AssetImage('assets/images/my_photo.jpg'),
                     ),
                     Padding(
-                      padding: const EdgeInsetsDirectional.only(
+                      padding: EdgeInsetsDirectional.only(
                           bottom: 3.0, end: 3.0),
                       child: CircleAvatar(
                         radius: 6.0,
@@ -55,7 +55,7 @@ class _InboxClientState extends State<InboxClient> {
             Container(
               width: 200,
               child: Text(
-                "moataz ossama ahmed",
+                "moataz ossama",
                 maxLines: 1,
                 overflow: TextOverflow.ellipsis,
                 style: TextStyle(fontSize: 15),

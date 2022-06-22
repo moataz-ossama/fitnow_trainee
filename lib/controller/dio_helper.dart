@@ -27,7 +27,7 @@ class DioHelper {
   }
 
    static Future<Response> getdata(
-      @required String url, @required Map<String, dynamic> query) async{
+      String url, Map<String, dynamic> query) async{
      String x="Bearer "+token;
      dio.options.headers={
 
@@ -39,7 +39,7 @@ class DioHelper {
   }
 
    static Future<Response> postdata(
-      @required String url, @required Map<String, dynamic> data ) async{
+      String url, Map<String, dynamic> data ) async{
 
     print("hello this is my token"+token.toString());
    String x="Bearer "+token;

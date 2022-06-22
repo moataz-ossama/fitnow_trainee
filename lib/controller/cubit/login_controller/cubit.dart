@@ -19,7 +19,7 @@ Logincubit():super (Intialloginstate());
 static Logincubit get(context)=> BlocProvider.of(context);
 
 
-void userlogin( @required String email, @required String password) {
+void userlogin( String email, String password) {
   emit(Loadingloginstate());
   DioHelper.postdata('/login', {'email': email, 'password': password}).then((value){
     print(value.data);

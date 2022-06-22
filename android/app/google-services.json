@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "305593364772",
+    "project_id": "fitnow-98fed",
+    "storage_bucket": "fitnow-98fed.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:305593364772:android:cece9df9c84a33dccc83b1",
+        "android_client_info": {
+          "package_name": "com.example.fitnow_trainee"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "305593364772-79rnmkdaqt9it5itlvhtatklb1qakcja.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDBF1ptkgUK6hqku9zrVlElaLybGN5MkNc"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "305593364772-79rnmkdaqt9it5itlvhtatklb1qakcja.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
