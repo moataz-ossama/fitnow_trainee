@@ -1,6 +1,6 @@
 // @dart=2.9
-import 'dart:io';
 
+import 'dart:io';
 import 'package:dio/dio.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -48,7 +48,6 @@ class DioHelper {
        HttpHeaders.authorizationHeader: x};
     return await  dio.post(
       url,
-
       data: data,
     );
   }
@@ -71,14 +70,15 @@ class DioHelper {
    final SharedPreferences prefs = await SharedPreferences.getInstance();
    token = await prefs.getString('access_token');
    print("hello this is my token"+token.toString());
+
    String x="Bearer "+token;
    dio.options.headers={
 
      HttpHeaders.authorizationHeader: x};
    return await  dio.post(
      url,
-
      data: data,
    );
+
  }
 }

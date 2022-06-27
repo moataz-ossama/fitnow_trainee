@@ -20,9 +20,10 @@ class _RegisterTraineeState extends State<RegisterTrainee> {
   var emailController = TextEditingController();
    Color malecolor=ProjectColors.dark_grey_color;
    Color femalecolor = ProjectColors.dark_grey_color;
+  var gendercontroller = "1";
   var passwordController = TextEditingController();
   var countrycontroller = TextEditingController();
-  var gendercontroller = "1";
+
   var namecontroller = TextEditingController();
 
 

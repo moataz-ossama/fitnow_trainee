@@ -2,6 +2,7 @@ import 'package:conditional_builder/conditional_builder.dart';
 import 'package:email_validator/email_validator.dart';
 import 'package:fitnow_trainee/controller/cubit/login_controller/cubit.dart';
 import 'package:fitnow_trainee/features/login&register/register.dart';
+import 'package:fitnow_trainee/features/login&register/view_profile.dart';
 import 'package:fitnow_trainee/layout/home_layout.dart';
 import 'package:fitnow_trainee/main.dart';
 import 'package:fitnow_trainee/shared/project_colors/cache_helper.dart';
@@ -13,6 +14,7 @@ import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 import 'package:wc_form_validators/wc_form_validators.dart';
 import '../../controller/cubit/login_controller/states.dart';
+import '../../controller/cubit/view_profile/view_profile_cubit.dart';
 import '../../shared/project_colors/colors.dart';
 
 class LoginScreen extends StatefulWidget {
@@ -164,6 +166,7 @@ class _LoginScreenState extends State<LoginScreen> {
                                             Logincubit.get(context).userlogin(
                                                 emailController.text,
                                                 passwordController.text);
+
                                           },
                                           child: Text(
                                             "Login",
@@ -203,23 +206,25 @@ class _LoginScreenState extends State<LoginScreen> {
           ),
         );
       }, listener: (context, state) async {
-        setState(()async {
+        setState( ()async {
           if (state is Successfulloginstate) {
             token = state.loginmodel.userData.access_token;
             if (state.loginmodel.status == "success") {
               print(state.loginmodel.status);
               print(state.loginmodel.userData.id);
               SharedPreferences sharedpref =
-                  await SharedPreferences.getInstance();
+              await SharedPreferences.getInstance();
               sharedpref.setString(
                   'access_token', state.loginmodel.userData.access_token);
+              print("login token" + state.loginmodel.userData.access_token);
+              ViewProfileCubit p = new ViewProfileCubit();
+              p.gettraineedata();
               Get.off(HomeLayout());
 // Navigator.of(context).pushReplacement(MaterialPageRoute(builder: (context)=>HomeLayout()));
 
             }
           }
         });
-
       }),
     );
   }

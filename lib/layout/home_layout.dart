@@ -1,9 +1,11 @@
+import 'package:fitnow_trainee/features/freelance/all_offers.dart';
 import 'package:fitnow_trainee/features/login&register/login.dart';
 import 'package:fitnow_trainee/features/login&register/register.dart';
 import 'package:fitnow_trainee/features/workouts/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter_svg/svg.dart';
+import '../features/freelance/all_trainee_jobs.dart';
 import '../features/freelance/freelance.dart';
 import '../features/messages/all_chats_screen.dart';
 import '../features/notifications/view_clients_notifications.dart';
@@ -27,7 +29,7 @@ class _HomeLayoutState extends State<HomeLayout> {
     FreelanceHome(),
     HomeScreen(),
     AllChats(),
-    ViewNotifications()
+    Alloffers()
   ];
 
   @override

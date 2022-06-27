@@ -5,7 +5,7 @@ import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 
-import '../login&register/logout_screen.dart';
+import '../login&register/settings.dart';
 import 'workout_details.dart';
 import 'workouts.dart';
 

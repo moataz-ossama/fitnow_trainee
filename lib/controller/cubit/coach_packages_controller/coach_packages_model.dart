@@ -23,12 +23,14 @@ class Userdata{
   int price;
   int weeks;
   String type;
+  int id;
   Userdata.fromJson(Map<String, dynamic> json) {
     title=json['title'];
     description=json['description'];
     price=json['price'];
     weeks=json['weeks'];
     type=json['type'];
+    id=json['id'];
   }
 }
 

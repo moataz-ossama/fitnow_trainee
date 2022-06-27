@@ -12,7 +12,7 @@ class InboxClient extends StatefulWidget {
 
 class _InboxClientState extends State<InboxClient> {
   int current_index = 0;
-
+  DateTime date =DateTime(2022,12,4);
   String? hintText;
 
   bool? obscureText;
@@ -193,6 +193,7 @@ class _InboxClientState extends State<InboxClient> {
                   suffixIcon: Icon(
                     Icons.send,
                     color: ProjectColors.green_color,
+
                   ),
                   prefixIcon: Icon(
                     Icons.camera_alt,
