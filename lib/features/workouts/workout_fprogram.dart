@@ -1,10 +1,25 @@
 import 'dart:io';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:fitnow_trainee/shared/project_colors/colors.dart';
 import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
+import 'package:conditional_builder/conditional_builder.dart';
+import 'package:fitnow_trainee/controller/cubit/coach_packages_controller/coach_packages_cubit.dart';
+import 'package:fitnow_trainee/features/workouts/Workout_days.dart';
+import 'package:fitnow_trainee/features/workouts/exercise_details.dart';
+import 'package:fitnow_trainee/features/workouts/workout_details.dart';
+import 'package:fitnow_trainee/shared/project_colors/colors.dart';
+import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../controller/cubit/payment/payment_states.dart';
+import '../../controller/cubit/trainee_programs/programs_cubit.dart';
+import '../../controller/cubit/trainee_programs/programs_states.dart';
+import 'exercises.dart';
 import '../login&register/settings.dart';
 import 'workout_details.dart';
 import 'workouts.dart';
@@ -37,83 +52,82 @@ class WorkoutFirstProgram extends StatelessWidget {
           )
         ],
       ),
-      body: Container(
-        color: Colors.grey[200],
-        child: Padding(
-          padding: const EdgeInsets.all(25.0),
-          child: Column(
-            crossAxisAlignment: CrossAxisAlignment.start,
-            children: [
-              Text(
-                'Today  ' +
-                    '${DateFormat("MMM d").format(today) + '  ${DateFormat.jm().format(DateTime.now())}'}',
-                style: TextStyle(
-                  fontSize: 15,
-                  color: Colors.black,
-                ),
-              ),
-              SizedBox(
-                height: 20,
-              ),
-              Container(
-                decoration:
-                    BoxDecoration(color: Colors.white, border: Border()),
-                child: Padding(
+      body: BlocProvider(
+        create: (BuildContext context) => ProgramsCubit(),
+        child: BlocConsumer<ProgramsCubit, Programstates>(
+            builder: (context, state) {
+              return ConditionalBuilder(
+                condition: ProgramsCubit.model!=null,
+                fallback: (context) => Center(child: CircularProgressIndicator()),
+                builder: (context) => Padding(
                   padding: const EdgeInsets.all(20.0),
-                  child: Row(
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
-                      Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        children: [
-                          Text(
-                            "Day 3",
-                            style: TextStyle(
-                                fontWeight: FontWeight.bold,
-                                color: Colors.grey),
-                          ),
-                          SizedBox(
-                            height: 10,
-                          ),
-                          Text(
-                            "Start Your Workout Today",
-                            style: TextStyle(color: Colors.grey),
-                          ),
-                        ],
-                      )
+                      Expanded(
+                        child: ListView.builder(
+                            itemCount: ProgramsCubit.model.data.program.weeks,
+                            itemBuilder: (context, index) =>Container(
+                              height: 100,
+
+                              width: double.infinity,
+
+                              child: Column(
+                                mainAxisAlignment: MainAxisAlignment.center,
+                                children: [
+                                  Row(
+                                    mainAxisAlignment:
+                                    MainAxisAlignment.center,
+                                    children: [
+                                      Expanded(
+                                        child: Container(
+
+                                            width: double.infinity,
+                                            decoration: BoxDecoration(
+                                              border: Border.all(color: ProjectColors.green_color),
+                                              color: ProjectColors.green_color,
+                                              borderRadius: BorderRadius.circular(10),
+                                            ),
+                                            child: TextButton(
+                                              onPressed: ()async{
+                                                SharedPreferences prefs =await SharedPreferences.getInstance();
+                                                prefs.setInt("weeks",ProgramsCubit.model.data.program.weeks );
+                                                prefs.setInt("weeks_index",index);
+
+                                                WorkoutDays.getweeks();
+                                                Get.to(WorkoutDays());
+                                              },
+                                              child: Container(
+                                                child: Text(
+                                                  "week "+ (index+1).toString() ,
+                                                  textAlign:
+                                                  TextAlign.center,
+                                                  style: TextStyle(
+                                                      fontWeight:
+                                                      FontWeight.bold,color: ProjectColors.white_color),
+                                                ),
+                                              ),
+                                            )),
+                                      ),
+                                    ],
+                                  ),
+                                  SizedBox(
+                                    height: 10,
+                                  ),
+
+                                ],
+                              ),
+                            ) ),
+                      ),
+
                     ],
                   ),
                 ),
-              ),
-              Expanded(
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.end,
-                  children: [
-                    Container(
-                      width: double.infinity,
-                      child: TextButton(
-                        onPressed: () {
-                          Get.to(Workouts());
-                        },
-                        child: Text(
-                          "Start Workout",
-                          style: TextStyle(
-                              color: Colors.white,
-                              fontWeight: FontWeight.bold,
-                              fontSize: 18),
-                        ),
-                      ),
-                      height: 40,
-                      decoration: BoxDecoration(
-                          border: Border.all(color: Colors.green),
-                          color: ProjectColors.green_color,
-                          borderRadius: BorderRadius.circular(5)),
-                    )
-                  ],
-                ),
-              )
-            ],
-          ),
-        ),
+              );
+            }, listener: (context, state) async {
+
+
+        }),
       ),
     );
   }

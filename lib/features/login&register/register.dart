@@ -1,4 +1,6 @@
+// @dart=2.9
 import 'package:conditional_builder/conditional_builder.dart';
+import 'package:country_list_pick/country_list_pick.dart';
 import 'package:fitnow_trainee/controller/cubit/register_controller/register_cubit.dart';
 import 'package:fitnow_trainee/controller/cubit/register_controller/register_states.dart';
 import 'package:fitnow_trainee/features/login&register/login.dart';
@@ -10,7 +12,7 @@ import 'package:get/get.dart';
 import '../../shared/project_colors/colors.dart';
 
 class RegisterTrainee extends StatefulWidget {
-  const RegisterTrainee({Key? key}) : super(key: key);
+  const RegisterTrainee({Key key}) : super(key: key);
 
   @override
   State<RegisterTrainee> createState() => _RegisterTraineeState();
@@ -22,7 +24,7 @@ class _RegisterTraineeState extends State<RegisterTrainee> {
    Color femalecolor = ProjectColors.dark_grey_color;
   var gendercontroller = "1";
   var passwordController = TextEditingController();
-  var countrycontroller = TextEditingController();
+  var countrycontroller="Egypt" ;
 
   var namecontroller = TextEditingController();
 
@@ -148,25 +150,44 @@ class _RegisterTraineeState extends State<RegisterTrainee> {
                           SizedBox(
                             height: 15.0,
                           ),
-                          TextFormField(
-                            validator: (value) => validaterequiredfields(value),
-                            controller: countrycontroller,
-                            keyboardType: TextInputType.text,
-                            onFieldSubmitted: (String value) {
-                              print(value);
-                            },
-                            onChanged: (String value) {
-                              print(value);
-                            },
-                            decoration: InputDecoration(
-                              labelText: 'Country',
-                              prefixIcon: Icon(
-                                Icons.location_pin,
-                              ),
-                              contentPadding:
-                                  EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
-                              border: OutlineInputBorder(
-                                  borderRadius: BorderRadius.circular(10.0)),
+
+                          SizedBox(height: 15,),
+                          Container(
+                            width: double.infinity,
+                            decoration: BoxDecoration(
+                                borderRadius: BorderRadius.circular(10),
+                                border: Border.all(color: Colors.grey[500])),
+                            child: Row(
+                              mainAxisAlignment: MainAxisAlignment.center,
+                              children: [
+
+                                Text("Choose Your Country"),
+                                SizedBox(width: 10,),
+                                CountryListPick(
+                                    appBar: AppBar(
+                                      backgroundColor: ProjectColors.green_color,
+                                      title: Text('Choose A country'),
+                                    ),
+                                    // To disable option set to false
+                                    theme: CountryTheme(
+                                      isShowFlag: true,
+                                      isShowTitle: true,
+                                      isShowCode: false,
+                                      isDownIcon: true,
+                                      showEnglishName: true,
+                                    ),
+                                    // Set default value
+                                    initialSelection: '+20',
+                                    onChanged:  (CountryCode code) {
+                                    countrycontroller=code.name.toString();
+
+                                    },
+                                    // Whether to allow the widget to set a custom UI overlay
+                                    useUiOverlay: true,
+                                    // Whether the country list should be wrapped in a SafeArea
+                                    useSafeArea: false
+                                ),
+                              ],
                             ),
                           ),
                           SizedBox(
@@ -296,7 +317,7 @@ class _RegisterTraineeState extends State<RegisterTrainee> {
                                               emailController.text,
                                               passwordController.text,
                                               gendercontroller.toString(),
-                                              countrycontroller.text,
+                                              countrycontroller,
                                             );
                                           },
                                           child: Text(
@@ -320,7 +341,7 @@ class _RegisterTraineeState extends State<RegisterTrainee> {
       ),
     );
   }
-  String validateEmail(String? value) {
+  String validateEmail(String value) {
     String pattern =
         r"^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9](?:[a-zA-Z0-9-]"
         r"{0,253}[a-zA-Z0-9])?(?:\.[a-zA-Z0-9](?:[a-zA-Z0-9-]"
@@ -341,7 +362,7 @@ class _RegisterTraineeState extends State<RegisterTrainee> {
       return 0;
     }
   }
-  String validaterequiredfields(String? value) {
+  String validaterequiredfields(String value) {
 
     if (value == null || value.isEmpty )
       return "it is a required field you can\'t leave it empty" ;

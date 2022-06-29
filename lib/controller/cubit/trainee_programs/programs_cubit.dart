@@ -14,15 +14,22 @@ class ProgramsCubit extends Cubit<Programstates>{
   static ProgramsCubit get(context)=> BlocProvider.of(context);
   void getprogram(){
     emit(IntialProgramstate());
-    DioHelper.getdatatoken('/assign-program/trainee/list' ).then((value) {
+    DioHelper.getdatatoken('/assign-program/trainee/1' ).then((value) {
       model=ProgramsModel.fromJson(value.data);
-
+      Fluttertoast.showToast(
+          msg: "get program successfuly",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor:Colors.green,
+          textColor: Colors.white,
+          fontSize: 16.0);
       emit(SuccessfullProgramstate(model));
     }).catchError((error){
       print("error m= "+error.toString());
 
       Fluttertoast.showToast(
-          msg: "no news feed data",
+          msg: "get program unsuccessfuly",
           toastLength: Toast.LENGTH_SHORT,
           gravity: ToastGravity.BOTTOM,
           timeInSecForIosWeb: 1,

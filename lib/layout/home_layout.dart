@@ -8,6 +8,7 @@ import 'package:flutter_svg/svg.dart';
 import '../features/freelance/all_trainee_jobs.dart';
 import '../features/freelance/freelance.dart';
 import '../features/messages/all_chats_screen.dart';
+import '../features/messages/trial.dart';
 import '../features/notifications/view_clients_notifications.dart';
 import '../features/workouts/workout_fprogram.dart';
 import '../features/workouts/workouts.dart';
@@ -28,7 +29,7 @@ class _HomeLayoutState extends State<HomeLayout> {
     WorkoutFirstProgram(),
     FreelanceHome(),
     HomeScreen(),
-    AllChats(),
+    CountrySelect(),
     Alloffers()
   ];
 

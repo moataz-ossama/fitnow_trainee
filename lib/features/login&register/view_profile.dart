@@ -3,6 +3,7 @@ import 'package:fitnow_trainee/features/login&register/update_profile.dart';
 import 'package:fitnow_trainee/shared/project_colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 import 'package:get/get.dart';
 
 import '../../controller/cubit/view_profile/view_profile_cubit.dart';
@@ -58,14 +59,14 @@ Widget ShowTraineData() => Padding(
                   decoration: BoxDecoration(
                       border: Border.all(
                           color: ProjectColors.green_color, width: 2),
-                      shape: BoxShape.circle),
+                      shape: BoxShape.rectangle),
                   child: Padding(
-                    padding: const EdgeInsets.all(20.0),
-                    child: Image.network(
-                        "${ViewProfileCubit.model.data.traineeProfile.photo}"),
+                    padding: const EdgeInsets.all(5),
+                    child: ViewProfileCubit.model.data.traineeProfile.photo!=null?Image.network(
+                        "${ViewProfileCubit.model.data.traineeProfile.photo}"):SvgPicture.asset('assets/images/Asset1.svg'),
                   ),
                   height: 150,
-                  width: 150,
+                  width: 120,
                 )
                 /*  CircleAvatar(
                   radius: 100.0,

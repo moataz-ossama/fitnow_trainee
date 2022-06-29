@@ -1,7 +1,9 @@
+
+// @dart=2.9
 // To parse this JSON data, do
 //
 //     final programsModel = programsModelFromJson(jsonString);
-// @dart=2.9
+
 import 'dart:convert';
 
 ProgramsModel programsModelFromJson(String str) => ProgramsModel.fromJson(json.decode(str));
@@ -249,10 +251,10 @@ class Details {
 
   int id;
   String title;
-  PrimaryFocus primaryFocus;
-  TrackingFiled trackingFiled;
-  Instructions instructions;
-  VideoUrl videoUrl;
+  String primaryFocus;
+  String trackingFiled;
+  String instructions;
+  String videoUrl;
   int userId;
   String public;
   String published;
@@ -262,10 +264,10 @@ class Details {
   factory Details.fromJson(Map<String, dynamic> json) => Details(
     id: json["id"],
     title: json["title"],
-    primaryFocus: primaryFocusValues.map[json["primary_focus"]],
-    trackingFiled: trackingFiledValues.map[json["tracking_filed"]],
-    instructions: instructionsValues.map[json["instructions"]],
-    videoUrl: videoUrlValues.map[json["video_url"]],
+    primaryFocus: json["primary_focus"],
+    trackingFiled: json["tracking_filed"],
+    instructions: json["instructions"],
+    videoUrl: json["video_url"],
     userId: json["user_id"],
     public: json["public"],
     published: json["published"],
@@ -276,10 +278,10 @@ class Details {
   Map<String, dynamic> toJson() => {
     "id": id,
     "title": title,
-    "primary_focus": primaryFocusValues.reverse[primaryFocus],
-    "tracking_filed": trackingFiledValues.reverse[trackingFiled],
-    "instructions": instructionsValues.reverse[instructions],
-    "video_url": videoUrlValues.reverse[videoUrl],
+    "primary_focus": primaryFocus,
+    "tracking_filed": trackingFiled,
+    "instructions": instructions,
+    "video_url": videoUrl,
     "user_id": userId,
     "public": public,
     "published": published,
@@ -287,30 +289,6 @@ class Details {
     "updated_at": updatedAt.toIso8601String(),
   };
 }
-
-enum Instructions { DASDASD }
-
-final instructionsValues = EnumValues({
-  "dasdasd": Instructions.DASDASD
-});
-
-enum PrimaryFocus { CHEAST }
-
-final primaryFocusValues = EnumValues({
-  "cheast": PrimaryFocus.CHEAST
-});
-
-enum TrackingFiled { DASDAS }
-
-final trackingFiledValues = EnumValues({
-  "dasdas": TrackingFiled.DASDAS
-});
-
-enum VideoUrl { FASDFA }
-
-final videoUrlValues = EnumValues({
-  "fasdfa": VideoUrl.FASDFA
-});
 
 class Set {
   Set({
@@ -366,18 +344,4 @@ class Set {
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
   };
-}
-
-class EnumValues<T> {
-  Map<String, T> map;
-  Map<T, String> reverseMap;
-
-  EnumValues(this.map);
-
-  Map<T, String> get reverse {
-    if (reverseMap == null) {
-      reverseMap = map.map((k, v) => new MapEntry(v, k));
-    }
-    return reverseMap;
-  }
 }

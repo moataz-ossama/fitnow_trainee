@@ -1,6 +1,5 @@
 // @dart=2.9
-import 'package:firebase_core/firebase_core.dart';
-import 'package:fitnow_trainee/controller/cubit/chat_controller/messeges_cubit.dart';
+
 import 'package:fitnow_trainee/controller/cubit/login_controller/login_model.dart';
 import 'package:fitnow_trainee/features/login&register/authentication.dart';
 import 'package:fitnow_trainee/features/login&register/login.dart';
@@ -12,8 +11,6 @@ import 'package:shared_preferences/shared_preferences.dart';
 import 'layout/home_layout.dart';
 
 Future<void> main() async {
-  WidgetsFlutterBinding.ensureInitialized();
-  await Firebase.initializeApp();
   runApp(MyApp());
 }
 

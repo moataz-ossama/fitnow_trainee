@@ -1,5 +1,6 @@
 // @dart=2.9
 import 'package:fitnow_trainee/controller/cubit/coach_packages_controller/coach_packages_model.dart';
+import 'package:fitnow_trainee/shared/project_colors/colors.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:fluttertoast/fluttertoast.dart';
@@ -17,7 +18,14 @@ class PackageCubit extends Cubit<CoachPackagesstates> {
     emit(IntialCoachPackagesstate());
     DioHelper.getdatatoken('/coach-packages/trainee/list').then((value) {
       model = PackagesModel.fromJson(value.data);
-
+      Fluttertoast.showToast(
+          msg: "get news feed data",
+          toastLength: Toast.LENGTH_SHORT,
+          gravity: ToastGravity.BOTTOM,
+          timeInSecForIosWeb: 1,
+          backgroundColor: ProjectColors.green_color,
+          textColor: Colors.white,
+          fontSize: 16.0);
       emit(SuccessfulCoachPackagesstate(model));
     }).catchError((error) {
       print("error m= " + error.toString());

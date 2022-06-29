@@ -1,6 +1,7 @@
 // @dart=2.9
 
 
+import 'package:fitnow_trainee/controller/cubit/trainee_programs/programs_cubit.dart';
 import 'package:fitnow_trainee/features/login&register/login.dart';
 import 'package:fitnow_trainee/layout/home_layout.dart';
 import 'package:flutter/material.dart';
@@ -48,6 +49,8 @@ return CircularProgressIndicator();
           tj.getallTraineeJobs();
           AllOffersCubit oc=new AllOffersCubit();
           oc.getalloffers();
+          ProgramsCubit programs= new ProgramsCubit();
+          programs.getprogram();
         });
 
         return HomeLayout();

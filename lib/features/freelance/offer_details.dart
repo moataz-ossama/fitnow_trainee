@@ -1,7 +1,12 @@
 // @dart=2.9
+import 'dart:io';
+
+import 'package:fitnow_trainee/controller/cubit/payment/payment_models.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
+import 'package:url_launcher/url_launcher.dart';
+import 'package:http/http.dart' as http;
+import '../../controller/cubit/payment/payment_cubit.dart';
 import '../../shared/project_colors/colors.dart';
 
 class OfferDetails extends StatefulWidget {
@@ -11,19 +16,47 @@ class OfferDetails extends StatefulWidget {
   State<OfferDetails> createState() => _OfferDetailsState();
   static String price;
   static String description;
+  static String id;
   static getdata() async {
     SharedPreferences sharedpref = await SharedPreferences.getInstance();
 
     description = await sharedpref.getString('offer_description');
     price = await sharedpref.getString('offer_price');
+    id = await sharedpref.getString('offer_id');
     print("get data is executed");
   }
+
 }
 
 class _OfferDetailsState extends State<OfferDetails> {
   @override
+  String offer_id=OfferDetails.id;
+
   String pricestring = OfferDetails.price;
   String descriptionstring = OfferDetails.description;
+  Future<PaymentModel> postdata(
+      @required String offer_id,
+    ) async {
+    final SharedPreferences prefs = await SharedPreferences.getInstance();
+    String token = await prefs.getString('access_token');
+
+    String x = "Bearer " + token;
+    var url = Uri.parse('https://api.fitsnow.xyz/api/trainee-offers/pay');
+    var response = await http.post(url, body: {
+      'offer_id': offer_id,
+
+    }, headers: {
+      HttpHeaders.authorizationHeader: x
+    });
+
+    print('Response status: ${response.statusCode}');
+    print('Response body: ${response.body}');
+
+  }
+
+  void _launchUrl(Uri url ) async {
+    if (!await launchUrl(url)) throw 'Could not launch $url';
+  }
   Widget build(BuildContext context) {
     return Scaffold(
         appBar: AppBar(
@@ -57,15 +90,10 @@ class _OfferDetailsState extends State<OfferDetails> {
                   SizedBox(
                     height: 5,
                   ),
-                  Row(
-                    mainAxisAlignment: MainAxisAlignment.start,
-                    children: [
-                      Text(
-                        descriptionstring==null?"no description":descriptionstring,
-                        style: TextStyle(
-                            fontSize: 15, color: ProjectColors.dark_grey_color),
-                      ),
-                    ],
+                  Text(
+                    descriptionstring==null?"no description":descriptionstring,
+                    style: TextStyle(
+                        fontSize: 15, color: ProjectColors.dark_grey_color),
                   ),
                   SizedBox(
                     height: 20,
@@ -106,7 +134,14 @@ class _OfferDetailsState extends State<OfferDetails> {
                               width: double.infinity,
                               height: 40,
                               child: TextButton(
-                                  onPressed: () async {},
+                                  onPressed: () async {
+
+                                String redirect= PaymentCubit.model.redirect;
+
+                          Uri url=Uri.parse('$redirect');
+
+                                _launchUrl(url) ;
+                                  },
                                   child: Text(
                                     "Pay For Offer",
                                     style: TextStyle(

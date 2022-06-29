@@ -1,14 +1,36 @@
+// @dart=2.9
 import 'package:fitnow_trainee/features/workouts/exercise_description.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
+import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../controller/cubit/trainee_programs/programs_cubit.dart';
 import '../../shared/project_colors/colors.dart';
 import 'exercise_results.dart';
 
-class ExerciseDetails extends StatelessWidget {
-  const ExerciseDetails({Key? key}) : super(key: key);
+class ExerciseDetails extends StatefulWidget {
+  const ExerciseDetails({Key key}) : super(key: key);
+static int ex_id;
+  static int day_id;
+  @override
+  State<ExerciseDetails> createState() => _ExerciseDetailsState();
+static getdata() async {
+  SharedPreferences sharedpref =
+      await SharedPreferences
+      .getInstance();
+ ex_id = sharedpref.getInt('exercise_id');
+ day_id=sharedpref.getInt('day_id');
+ print("my ex id os"+ex_id.toString());
+  print("my d id os"+day_id.toString());
+}
+}
+
+class _ExerciseDetailsState extends State<ExerciseDetails> {
 
   @override
+var x=ExerciseDetails.getdata();
+  int exercise_id=ExerciseDetails.ex_id;
+  int day_id=ExerciseDetails.day_id;
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
@@ -16,7 +38,7 @@ class ExerciseDetails extends StatelessWidget {
         foregroundColor: Colors.grey[600],
         centerTitle: true,
         title: Text(
-          "1/7 Back",
+        exercise_id.toString()+"/"+ProgramsCubit.model.data.program.days[day_id].workout.workoutExercieses.length.toString(),
           style: TextStyle(color: ProjectColors.green_color),
         ),
         actions: [

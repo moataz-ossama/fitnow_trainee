@@ -1,6 +1,7 @@
 // @dart=2.9
 import 'dart:io';
 import 'package:conditional_builder/conditional_builder.dart';
+import 'package:country_list_pick/country_list_pick.dart';
 import 'package:fitnow_trainee/controller/cubit/view_profile/view_profile_cubit.dart';
 import 'package:fitnow_trainee/controller/cubit/view_profile/view_profile_model.dart';
 import 'package:get/get.dart';
@@ -79,6 +80,7 @@ Future<UpdateProfileModel> postdata(
 
   print('Response status: ${response.statusCode}');
   print('Response body: ${response.body}');
+
 }
 
 class _UpdateProfileState extends State<UpdateProfile> {
@@ -87,7 +89,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
 
   var mobileController = TextEditingController();
 
-  var countryController = TextEditingController();
+  var countryController = "Egypt";
   var birthdateController = TextEditingController();
   Color malecolor = ProjectColors.dark_grey_color;
   Color femalecolor = ProjectColors.dark_grey_color;
@@ -121,14 +123,14 @@ class _UpdateProfileState extends State<UpdateProfile> {
                               decoration: BoxDecoration(
                                   border: Border.all(
                                       color: ProjectColors.green_color, width: 2),
-                                  shape: BoxShape.circle),
+                                  shape: BoxShape.rectangle),
                               child: Padding(
-                                padding: const EdgeInsets.all(20.0),
+                                padding: const EdgeInsets.all(10),
                                 child: image==null?Image.network(
                                     "${ViewProfileCubit.model.data.traineeProfile.photo}"):Image.file(image),
                               ),
                               height: 150,
-                              width: 150,
+                              width: 120,
                             )
                           ],
                         ),
@@ -161,7 +163,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             print(value);
                           },
                           decoration: InputDecoration(
-                            labelText: ViewProfileCubit.model.data.traineeProfile.mobile.toString(),
+                            labelText: ViewProfileCubit.model.data.traineeProfile.mobile.toString()==null? "no mobile number": ViewProfileCubit.model.data.traineeProfile.mobile.toString(),
                             prefixIcon: Icon(
                               Icons.phone,
                             ),
@@ -178,22 +180,42 @@ class _UpdateProfileState extends State<UpdateProfile> {
                         SizedBox(
                           height: 5,
                         ),
-                        TextFormField(
+                        Container(
+                          width: double.infinity,
+                          decoration: BoxDecoration(
+                              borderRadius: BorderRadius.circular(10),
+                              border: Border.all(color: Colors.grey[500])),
+                          child: Row(
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
 
-                          controller: countryController,
-                          keyboardType: TextInputType.text,
-                          onFieldSubmitted: (String value) {
-                            print(value);
-                          },
-                          decoration: InputDecoration(
-                            labelText: ViewProfileCubit.model.data.traineeProfile.country.toString(),
-                            prefixIcon: Icon(
-                              Icons.location_pin,
-                            ),
-                            contentPadding:
-                                EdgeInsets.fromLTRB(1.0, 1.0, 1.0, 1.0),
-                            border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(10.0)),
+                              Text("Choose Your Country"),
+                              SizedBox(width: 10,),
+                              CountryListPick(
+                                  appBar: AppBar(
+                                    backgroundColor: ProjectColors.green_color,
+                                    title: Text('Choose A country'),
+                                  ),
+                                  // To disable option set to false
+                                  theme: CountryTheme(
+                                    isShowFlag: true,
+                                    isShowTitle: true,
+                                    isShowCode: false,
+                                    isDownIcon: true,
+                                    showEnglishName: true,
+                                  ),
+                                  // Set default value
+                                  initialSelection: '+20',
+                                  onChanged:  (CountryCode code) {
+                                    countryController=code.name.toString();
+
+                                  },
+                                  // Whether to allow the widget to set a custom UI overlay
+                                  useUiOverlay: true,
+                                  // Whether the country list should be wrapped in a SafeArea
+                                  useSafeArea: false
+                              ),
+                            ],
                           ),
                         ),
                         SizedBox(
@@ -360,7 +382,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                                               await postimage(
                                                 image==null?"":image.path,
                                                   mobileController.text.isEmpty?ViewProfileCubit.model.data.traineeProfile.mobile.toString():mobileController.text,
-                                                  countryController.text.isEmpty?ViewProfileCubit.model.data.traineeProfile.country.toString():   countryController.text,
+                                                  countryController.isEmpty?ViewProfileCubit.model.data.traineeProfile.country.toString():   countryController,
                                                   datebirth,
                                                   gendercontroller);
                                           ViewProfileCubit p = new ViewProfileCubit();

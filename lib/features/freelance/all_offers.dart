@@ -11,6 +11,7 @@ import '../../controller/cubit/all_offers/all_offers_states.dart';
 
 import '../../controller/cubit/all_trainee_jobs/all_trainee_jobs_cubit.dart';
 import '../../controller/cubit/coach_packages_controller/coach_packages_cubit.dart';
+import '../../controller/cubit/payment/payment_cubit.dart';
 import '../../shared/project_colors/colors.dart';
 
 class Alloffers extends StatefulWidget {
@@ -184,7 +185,19 @@ class _AlloffersState extends State<Alloffers> {
                                                                   AllOffersCubit
                                                                       .model.data.data[index].price
                                                                       .toString());
+                                                              sharedpref.setString(
+                                                                  'offer_id',
+                                                                  AllOffersCubit
+                                                                      .model.data.data[index].id
+                                                                      .toString());
                                                               OfferDetails.getdata();
+                                                              PaymentCubit pc= new PaymentCubit();
+                                                              pc.Payment(  AllOffersCubit
+                                                                  .model.data.data[index].id
+                                                                  .toString());
+                                                              print("mt id hbajhs"  +AllOffersCubit
+                                                                  .model.data.data[index].id
+                                                                  .toString());
 Get.to(OfferDetails());
                                                             },
                                                             child: Text(
