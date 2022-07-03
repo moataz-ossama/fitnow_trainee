@@ -1,3 +1,5 @@
+import 'package:fitnow_trainee/features/freelance/all_offers.dart';
+import 'package:fitnow_trainee/features/freelance/all_trainee_jobs.dart';
 import 'package:flutter/material.dart';
 import 'package:intl/intl.dart';
 import '../../shared/project_colors/colors.dart';
@@ -14,11 +16,13 @@ class FreelanceHome extends StatefulWidget {
 class _FreelanceHomeState extends State<FreelanceHome> {
   List<Widget> screens = [
     NewsFeed(),
-    Post(),
+    AllTraineeJobs(),
+    Alloffers(),
   ];
 
   Color newsfeedbtn = Colors.black;
-  Color postbtn = Color(0xff5e5873);
+  Color alljobsbtn = Color(0xff5e5873);
+  Color alloffersbtn = Color(0xff5e5873);
   int current_index = 0;
   final today = DateTime.now();
   DateTime now = DateTime.now();
@@ -52,15 +56,7 @@ class _FreelanceHomeState extends State<FreelanceHome> {
                           ],
                         ),
 
-                        Row(
 
-                          children: [
-                            Icon(
-                              Icons.settings,
-                              color: ProjectColors.green_color,
-                            ),
-                          ],
-                        ),
                       ],
                     ),
                   ),
@@ -77,28 +73,48 @@ class _FreelanceHomeState extends State<FreelanceHome> {
                               setState(() {
                                 current_index = 0;
                                 newsfeedbtn=Colors.black;
-                                postbtn=ProjectColors.light_grey_color;
+                                alljobsbtn=ProjectColors.light_grey_color;
+                                alloffersbtn=ProjectColors.light_grey_color;
                               });
                             },
                             child: Text(
-                              'coach packages',
+                              'Coach Packages',
                               style: TextStyle(
                                   color:newsfeedbtn,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400),
                             )),
+                        SizedBox(width: 25,),
                         TextButton(
                             onPressed: () {
                               setState(() {
                                 current_index = 1;
-                                postbtn=Colors.black;
+                                alljobsbtn  =Colors.black;
                                 newsfeedbtn=ProjectColors.light_grey_color;
+                                alloffersbtn=ProjectColors.light_grey_color;
                               });
                             },
                             child: Text(
-                              'post',
+                              'Trainee Jobs',
                               style: TextStyle(
-                                  color: postbtn,
+                                  color: alljobsbtn,
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w400),
+                            )),
+                        SizedBox(width: 25,),
+                        TextButton(
+                            onPressed: () {
+                              setState(() {
+                                current_index = 2;
+                                alloffersbtn=Colors.black;
+                                newsfeedbtn=ProjectColors.light_grey_color;
+                                alljobsbtn=ProjectColors.light_grey_color;
+                              });
+                            },
+                            child: Text(
+                              'offers',
+                              style: TextStyle(
+                                  color: alloffersbtn,
                                   fontSize: 15,
                                   fontWeight: FontWeight.w400),
                             )),

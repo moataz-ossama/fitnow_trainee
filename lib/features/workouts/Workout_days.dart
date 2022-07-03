@@ -6,6 +6,7 @@ import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
+import '../../controller/cubit/exercise data/exercise_cubit.dart';
 import '../../controller/cubit/trainee_programs/programs_cubit.dart';
 import '../../controller/cubit/trainee_programs/programs_states.dart';
 import 'exercises.dart';
@@ -51,7 +52,7 @@ class _WorkoutDaysState extends State<WorkoutDays> {
                     Center(child: CircularProgressIndicator()),
                 builder: (context) =>
                     Padding(
-                      padding: const EdgeInsets.all(20.0),
+                      padding: const EdgeInsets.only(left: 20.0,right: 20,top: 40),
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
@@ -60,7 +61,7 @@ class _WorkoutDaysState extends State<WorkoutDays> {
                                 itemCount: 7,
                                 itemBuilder: (context, index) =>
                                     Container(
-                                      height: 100,
+
 
                                       width: double.infinity,
 
@@ -78,10 +79,9 @@ class _WorkoutDaysState extends State<WorkoutDays> {
                                                     width: double.infinity,
                                                     decoration: BoxDecoration(
                                                       border: Border.all(
-                                                          color: ProjectColors
-                                                              .green_color),
-                                                      color: ProjectColors
-                                                          .green_color,
+                                                          color:  Colors.grey[200]),
+                                                      color: Colors.grey[200]
+                                                          ,
                                                       borderRadius: BorderRadius
                                                           .circular(10),
                                                     ),
@@ -91,7 +91,11 @@ class _WorkoutDaysState extends State<WorkoutDays> {
                                                             .getInstance();
                                                         prefs.setInt("day_id",
                                                             daysnum()+ index);
-Exercises.getdata();
+                                                        ExerciseCubit ec=new ExerciseCubit();
+                                                        ProgramsCubit.model.data.program.days[ daysnum()+ index].workout.sections.length>0 ?       ec.getexercisedata(ProgramsCubit.model.data.program.days[ daysnum()+ index].workout.sections[0].exercises[0].exerciseId.toString()):Container();
+
+
+                                                        Exercises.getdata();
                                                  Get.to(Exercises());
 
                                                       },
@@ -103,17 +107,14 @@ Exercises.getdata();
                                                           style: TextStyle(
                                                               fontWeight:
                                                               FontWeight.bold,
-                                                              color: ProjectColors
-                                                                  .white_color),
+                                                              color: Colors.grey[600]),
                                                         ),
                                                       ),
                                                     )),
                                               ),
                                             ],
                                           ),
-                                          SizedBox(
-                                            height: 10,
-                                          ),
+SizedBox(height: 20,)
 
                                         ],
                                       ),

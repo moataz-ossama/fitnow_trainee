@@ -14,7 +14,7 @@ class ProgramsCubit extends Cubit<Programstates>{
   static ProgramsCubit get(context)=> BlocProvider.of(context);
   void getprogram(){
     emit(IntialProgramstate());
-    DioHelper.getdatatoken('/assign-program/trainee/1' ).then((value) {
+    DioHelper.getdatatoken('/assign-program/trainee/2' ).then((value) {
       model=ProgramsModel.fromJson(value.data);
       Fluttertoast.showToast(
           msg: "get program successfuly",

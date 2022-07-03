@@ -1,4 +1,6 @@
 // @dart=2.9
+import 'package:fitnow_trainee/controller/cubit/proposals/proposals_cubit.dart';
+import 'package:fitnow_trainee/features/freelance/proposals_for_job.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -13,12 +15,13 @@ class JobDetails extends StatefulWidget {
   static String title;
   static String price;
   static String description;
-
+  static int job_id;
   static getdata() async {
     SharedPreferences sharedpref = await SharedPreferences.getInstance();
     title = await sharedpref.getString('job_title');
     description = await sharedpref.getString('job_description');
     price = await sharedpref.getString('job_price');
+    job_id = await sharedpref.getInt('job_id');
     print("get data is executed");
   }
 }
@@ -27,6 +30,7 @@ class _JobDetailsState extends State<JobDetails> {
   String titlestring = JobDetails.title;
   String pricestring = JobDetails.price;
   String descriptionstring = JobDetails.description;
+  int id=JobDetails.job_id;
 
   @override
   Widget build(BuildContext context) {
@@ -62,7 +66,7 @@ class _JobDetailsState extends State<JobDetails> {
                     mainAxisAlignment: MainAxisAlignment.start,
                     children: [
                       Text(
-                        "Package Description: ",
+                        "Job Description: ",
                         style: TextStyle(
                           fontSize: 16,
                           color: ProjectColors.green_color,
@@ -74,10 +78,15 @@ class _JobDetailsState extends State<JobDetails> {
                   SizedBox(
                     height: 5,
                   ),
-                  Text(
-                    descriptionstring,
-                    style: TextStyle(
-                        fontSize: 15, color: ProjectColors.dark_grey_color),
+                  Row(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: [
+                      Text(
+                        descriptionstring,
+                        style: TextStyle(
+                            fontSize: 15, color: ProjectColors.dark_grey_color),
+                      ),
+                    ],
                   ),
                   SizedBox(
                     height: 20,
@@ -118,7 +127,11 @@ class _JobDetailsState extends State<JobDetails> {
                               width: double.infinity,
                               height: 40,
                               child: TextButton(
-                                  onPressed: () async {},
+                                  onPressed: () async {
+                                    ProposalsCubit pc=new ProposalsCubit();
+                                    pc.getProposal(id.toString());
+Get.to(JobProposals());
+                                  },
                                   child: Text(
                                     "View Coaches Proposals",
                                     style: TextStyle(

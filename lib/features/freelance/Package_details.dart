@@ -88,10 +88,13 @@ String durationstring= OfferDescription.duration;
                 SizedBox(
                   height: 5,
                 ),
-                Text(
-                  descriptionstring,
-                  style: TextStyle(
-                      fontSize: 15, color: ProjectColors.dark_grey_color),
+                Align(
+                  alignment: Alignment.centerLeft,
+                  child: Text(
+                    descriptionstring,
+                    style: TextStyle(
+                        fontSize: 15, color: ProjectColors.dark_grey_color),
+                  ),
                 ),
                 SizedBox(
                   height: 20,

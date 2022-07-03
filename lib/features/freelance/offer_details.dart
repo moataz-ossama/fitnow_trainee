@@ -137,10 +137,12 @@ class _OfferDetailsState extends State<OfferDetails> {
                                   onPressed: () async {
 
                                 String redirect= PaymentCubit.model.redirect;
+SharedPreferences prefs=await SharedPreferences.getInstance();
 
                           Uri url=Uri.parse('$redirect');
-
+                                prefs.setString("payment_url", url.toString() );
                                 _launchUrl(url) ;
+
                                   },
                                   child: Text(
                                     "Pay For Offer",

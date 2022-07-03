@@ -24,9 +24,14 @@ import '../login&register/settings.dart';
 import 'workout_details.dart';
 import 'workouts.dart';
 
-class WorkoutFirstProgram extends StatelessWidget {
+class WorkoutFirstProgram extends StatefulWidget {
   const WorkoutFirstProgram({Key? key}) : super(key: key);
 
+  @override
+  State<WorkoutFirstProgram> createState() => _WorkoutFirstProgramState();
+}
+
+class _WorkoutFirstProgramState extends State<WorkoutFirstProgram> {
   @override
   Widget build(BuildContext context) {
     final today = DateTime.now();
@@ -60,64 +65,66 @@ class WorkoutFirstProgram extends StatelessWidget {
                 condition: ProgramsCubit.model!=null,
                 fallback: (context) => Center(child: CircularProgressIndicator()),
                 builder: (context) => Padding(
-                  padding: const EdgeInsets.all(20.0),
+                  padding: const EdgeInsets.all(30.0),
                   child: Column(
-                    mainAxisAlignment: MainAxisAlignment.center,
                     children: [
                       Expanded(
-                        child: ListView.builder(
-                            itemCount: ProgramsCubit.model.data.program.weeks,
-                            itemBuilder: (context, index) =>Container(
-                              height: 100,
+                        child: RefreshIndicator(
+                          onRefresh: refresh,
+                          child: ListView.builder(
+                              itemCount: ProgramsCubit.model.data.program.weeks,
+                              itemBuilder: (context, index) =>Container(
 
-                              width: double.infinity,
 
-                              child: Column(
-                                mainAxisAlignment: MainAxisAlignment.center,
-                                children: [
-                                  Row(
-                                    mainAxisAlignment:
-                                    MainAxisAlignment.center,
-                                    children: [
-                                      Expanded(
-                                        child: Container(
+                                width: double.infinity,
 
-                                            width: double.infinity,
-                                            decoration: BoxDecoration(
-                                              border: Border.all(color: ProjectColors.green_color),
-                                              color: ProjectColors.green_color,
-                                              borderRadius: BorderRadius.circular(10),
-                                            ),
-                                            child: TextButton(
-                                              onPressed: ()async{
-                                                SharedPreferences prefs =await SharedPreferences.getInstance();
-                                                prefs.setInt("weeks",ProgramsCubit.model.data.program.weeks );
-                                                prefs.setInt("weeks_index",index);
+                                child: Column(
+                                  mainAxisAlignment: MainAxisAlignment.center,
+                                  children: [
+                                    Row(
+                                      mainAxisAlignment:
+                                      MainAxisAlignment.center,
+                                      children: [
+                                        Expanded(
+                                          child: Container(
 
-                                                WorkoutDays.getweeks();
-                                                Get.to(WorkoutDays());
-                                              },
-                                              child: Container(
-                                                child: Text(
-                                                  "week "+ (index+1).toString() ,
-                                                  textAlign:
-                                                  TextAlign.center,
-                                                  style: TextStyle(
-                                                      fontWeight:
-                                                      FontWeight.bold,color: ProjectColors.white_color),
-                                                ),
+                                              width: double.infinity,
+                                              decoration: BoxDecoration(
+                                                border: Border.all(color: ProjectColors.green_color),
+                                                color: ProjectColors.green_color,
+                                                borderRadius: BorderRadius.circular(10),
                                               ),
-                                            )),
-                                      ),
-                                    ],
-                                  ),
-                                  SizedBox(
-                                    height: 10,
-                                  ),
+                                              child: TextButton(
+                                                onPressed: ()async{
+                                                  SharedPreferences prefs =await SharedPreferences.getInstance();
+                                                  prefs.setInt("weeks",ProgramsCubit.model.data.program.weeks );
+                                                  prefs.setInt("weeks_index",index);
 
-                                ],
-                              ),
-                            ) ),
+                                                  WorkoutDays.getweeks();
+                                                  Get.to(WorkoutDays());
+                                                },
+                                                child: Container(
+                                                  child: Text(
+                                                    "week "+ (index+1).toString() ,
+                                                    textAlign:
+                                                    TextAlign.center,
+                                                    style: TextStyle(
+                                                        fontWeight:
+                                                        FontWeight.bold,color: ProjectColors.white_color),
+                                                  ),
+                                                ),
+                                              )),
+                                        ),
+                                      ],
+                                    ),
+                                    SizedBox(
+                                      height: 30,
+                                    ),
+
+                                  ],
+                                ),
+                              ) ),
+                        ),
                       ),
 
                     ],
@@ -130,5 +137,12 @@ class WorkoutFirstProgram extends StatelessWidget {
         }),
       ),
     );
+  }
+
+  Future<void> refresh()async {
+    setState(() {
+      ProgramsCubit pc=new ProgramsCubit();
+      pc.getprogram();
+    });
   }
 }

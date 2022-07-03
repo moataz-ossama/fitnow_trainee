@@ -41,7 +41,6 @@ class DioHelper {
    static Future<Response> postdata(
       String url, Map<String, dynamic> data ) async{
 
-    print("hello this is my token"+token.toString());
    String x="Bearer "+token;
    dio.options.headers={
 
@@ -69,7 +68,6 @@ class DioHelper {
      @required String url, @required Map<String, dynamic> data ) async{
    final SharedPreferences prefs = await SharedPreferences.getInstance();
    token = await prefs.getString('access_token');
-   print("hello this is my token"+token.toString());
 
    String x="Bearer "+token;
    dio.options.headers={

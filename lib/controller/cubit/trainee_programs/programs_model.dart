@@ -1,4 +1,3 @@
-
 // @dart=2.9
 // To parse this JSON data, do
 //
@@ -44,6 +43,7 @@ class Data {
     this.createdAt,
     this.updatedAt,
     this.program,
+    this.trainee,
   });
 
   int id;
@@ -54,6 +54,7 @@ class Data {
   DateTime createdAt;
   DateTime updatedAt;
   Program program;
+  Trainee trainee;
 
   factory Data.fromJson(Map<String, dynamic> json) => Data(
     id: json["id"],
@@ -64,6 +65,7 @@ class Data {
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
     program: Program.fromJson(json["program"]),
+    trainee: Trainee.fromJson(json["trainee"]),
   );
 
   Map<String, dynamic> toJson() => {
@@ -75,6 +77,7 @@ class Data {
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
     "program": program.toJson(),
+    "trainee": trainee.toJson(),
   };
 }
 
@@ -144,13 +147,13 @@ class Program {
   DateTime createdAt;
   DateTime updatedAt;
   List<Day> days;
-  List<dynamic> sections;
+  List<Section> sections;
   List<WorkoutExerciese> workoutExercieses;
 
   factory Program.fromJson(Map<String, dynamic> json) => Program(
     id: json["id"],
     title: json["title"],
-    description: json["description"] == null ? null : json["description"],
+    description: json["description"],
     weeks: json["weeks"] == null ? null : json["weeks"],
     userId: json["user_id"],
     public: json["public"],
@@ -158,14 +161,14 @@ class Program {
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
     days: json["days"] == null ? null : List<Day>.from(json["days"].map((x) => Day.fromJson(x))),
-    sections: json["sections"] == null ? null : List<dynamic>.from(json["sections"].map((x) => x)),
+    sections: json["sections"] == null ? null : List<Section>.from(json["sections"].map((x) => Section.fromJson(x))),
     workoutExercieses: json["workout_exercieses"] == null ? null : List<WorkoutExerciese>.from(json["workout_exercieses"].map((x) => WorkoutExerciese.fromJson(x))),
   );
 
   Map<String, dynamic> toJson() => {
     "id": id,
     "title": title,
-    "description": description == null ? null : description,
+    "description": description,
     "weeks": weeks == null ? null : weeks,
     "user_id": userId,
     "public": public,
@@ -173,8 +176,68 @@ class Program {
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
     "days": days == null ? null : List<dynamic>.from(days.map((x) => x.toJson())),
-    "sections": sections == null ? null : List<dynamic>.from(sections.map((x) => x)),
+    "sections": sections == null ? null : List<dynamic>.from(sections.map((x) => x.toJson())),
     "workout_exercieses": workoutExercieses == null ? null : List<dynamic>.from(workoutExercieses.map((x) => x.toJson())),
+  };
+}
+
+class Section {
+  Section({
+    this.id,
+    this.title,
+    this.instruction,
+    this.type,
+    this.order,
+    this.saveLibrary,
+    this.workoutId,
+    this.public,
+    this.published,
+    this.createdAt,
+    this.updatedAt,
+    this.exercises,
+  });
+
+  int id;
+  String title;
+  dynamic instruction;
+  String type;
+  int order;
+  int saveLibrary;
+  int workoutId;
+  String public;
+  String published;
+  DateTime createdAt;
+  DateTime updatedAt;
+  List<WorkoutExerciese> exercises;
+
+  factory Section.fromJson(Map<String, dynamic> json) => Section(
+    id: json["id"],
+    title: json["title"],
+    instruction: json["instruction"],
+    type: json["type"],
+    order: json["order"],
+    saveLibrary: json["save_library"],
+    workoutId: json["workout_id"],
+    public: json["public"],
+    published: json["published"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    exercises: List<WorkoutExerciese>.from(json["exercises"].map((x) => WorkoutExerciese.fromJson(x))),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "title": title,
+    "instruction": instruction,
+    "type": type,
+    "order": order,
+    "save_library": saveLibrary,
+    "workout_id": workoutId,
+    "public": public,
+    "published": published,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+    "exercises": List<dynamic>.from(exercises.map((x) => x.toJson())),
   };
 }
 
@@ -196,7 +259,7 @@ class WorkoutExerciese {
   int id;
   int exerciseId;
   int workoutId;
-  dynamic workoutSectionId;
+  int workoutSectionId;
   int order;
   dynamic notes;
   String published;
@@ -209,7 +272,7 @@ class WorkoutExerciese {
     id: json["id"],
     exerciseId: json["exercise_id"],
     workoutId: json["workout_id"],
-    workoutSectionId: json["workout_section_id"],
+    workoutSectionId: json["workout_section_id"] == null ? null : json["workout_section_id"],
     order: json["order"],
     notes: json["notes"],
     published: json["published"],
@@ -223,7 +286,7 @@ class WorkoutExerciese {
     "id": id,
     "exercise_id": exerciseId,
     "workout_id": workoutId,
-    "workout_section_id": workoutSectionId,
+    "workout_section_id": workoutSectionId == null ? null : workoutSectionId,
     "order": order,
     "notes": notes,
     "published": published,
@@ -254,7 +317,7 @@ class Details {
   String primaryFocus;
   String trackingFiled;
   String instructions;
-  String videoUrl;
+  dynamic videoUrl;
   int userId;
   String public;
   String published;
@@ -307,12 +370,12 @@ class Set {
 
   int id;
   int workoutExerciesExerciseId;
-  String notes;
+  dynamic notes;
   int time;
-  int rest;
+  dynamic rest;
   int tempo;
   int speed;
-  int reps;
+  dynamic reps;
   int weight;
   DateTime createdAt;
   DateTime updatedAt;
@@ -323,10 +386,10 @@ class Set {
     notes: json["notes"],
     time: json["time"],
     rest: json["rest"],
-    tempo: json["tempo"],
+    tempo: json["tempo"] == null ? null : json["tempo"],
     speed: json["speed"],
     reps: json["reps"],
-    weight: json["weight"],
+    weight: json["weight"] == null ? null : json["weight"],
     createdAt: DateTime.parse(json["created_at"]),
     updatedAt: DateTime.parse(json["updated_at"]),
   );
@@ -337,11 +400,112 @@ class Set {
     "notes": notes,
     "time": time,
     "rest": rest,
-    "tempo": tempo,
+    "tempo": tempo == null ? null : tempo,
     "speed": speed,
     "reps": reps,
-    "weight": weight,
+    "weight": weight == null ? null : weight,
     "created_at": createdAt.toIso8601String(),
     "updated_at": updatedAt.toIso8601String(),
   };
 }
+
+class Trainee {
+  Trainee({
+    this.id,
+    this.userId,
+    this.gender,
+    this.status,
+    this.mobile,
+    this.photo,
+    this.birthdate,
+    this.country,
+    this.createdAt,
+    this.updatedAt,
+    this.user,
+  });
+
+  int id;
+  int userId;
+  String gender;
+  String status;
+  dynamic mobile;
+  String photo;
+  dynamic birthdate;
+  String country;
+  DateTime createdAt;
+  DateTime updatedAt;
+  User user;
+
+  factory Trainee.fromJson(Map<String, dynamic> json) => Trainee(
+    id: json["id"],
+    userId: json["user_id"],
+    gender: json["gender"],
+    status: json["status"],
+    mobile: json["mobile"],
+    photo: json["photo"],
+    birthdate: json["birthdate"],
+    country: json["country"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+    user: User.fromJson(json["user"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "user_id": userId,
+    "gender": gender,
+    "status": status,
+    "mobile": mobile,
+    "photo": photo,
+    "birthdate": birthdate,
+    "country": country,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+    "user": user.toJson(),
+  };
+}
+
+class User {
+  User({
+    this.id,
+    this.fullname,
+    this.email,
+    this.emailVerifiedAt,
+    this.type,
+    this.isAdmin,
+    this.createdAt,
+    this.updatedAt,
+  });
+
+  int id;
+  String fullname;
+  String email;
+  dynamic emailVerifiedAt;
+  String type;
+  dynamic isAdmin;
+  DateTime createdAt;
+  DateTime updatedAt;
+
+  factory User.fromJson(Map<String, dynamic> json) => User(
+    id: json["id"],
+    fullname: json["fullname"],
+    email: json["email"],
+    emailVerifiedAt: json["email_verified_at"],
+    type: json["type"],
+    isAdmin: json["is_admin"],
+    createdAt: DateTime.parse(json["created_at"]),
+    updatedAt: DateTime.parse(json["updated_at"]),
+  );
+
+  Map<String, dynamic> toJson() => {
+    "id": id,
+    "fullname": fullname,
+    "email": email,
+    "email_verified_at": emailVerifiedAt,
+    "type": type,
+    "is_admin": isAdmin,
+    "created_at": createdAt.toIso8601String(),
+    "updated_at": updatedAt.toIso8601String(),
+  };
+}
+

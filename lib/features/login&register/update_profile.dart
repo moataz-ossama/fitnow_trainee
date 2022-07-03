@@ -122,7 +122,7 @@ class _UpdateProfileState extends State<UpdateProfile> {
                             Container(
                               decoration: BoxDecoration(
                                   border: Border.all(
-                                      color: ProjectColors.green_color, width: 2),
+                                      color: ProjectColors.white_color, width: 2),
                                   shape: BoxShape.rectangle),
                               child: Padding(
                                 padding: const EdgeInsets.all(10),

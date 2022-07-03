@@ -3,6 +3,7 @@
 
 import 'package:fitnow_trainee/controller/cubit/trainee_programs/programs_cubit.dart';
 import 'package:fitnow_trainee/features/login&register/login.dart';
+import 'package:fitnow_trainee/features/messages/chat_webview.dart';
 import 'package:fitnow_trainee/layout/home_layout.dart';
 import 'package:flutter/material.dart';
 import 'package:shared_preferences/shared_preferences.dart';
@@ -51,6 +52,8 @@ return CircularProgressIndicator();
           oc.getalloffers();
           ProgramsCubit programs= new ProgramsCubit();
           programs.getprogram();
+          Chat.settoken();
+
         });
 
         return HomeLayout();

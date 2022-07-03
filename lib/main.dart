@@ -3,6 +3,7 @@
 import 'package:fitnow_trainee/controller/cubit/login_controller/login_model.dart';
 import 'package:fitnow_trainee/features/login&register/authentication.dart';
 import 'package:fitnow_trainee/features/login&register/login.dart';
+import 'package:fitnow_trainee/layout/splash_view.dart';
 import 'package:fitnow_trainee/shared/project_colors/cache_helper.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
@@ -23,7 +24,7 @@ MyApp();
 
     return GetMaterialApp(
         debugShowCheckedModeBanner: false,
-        home:Authentication(),
+        home:SplashView(),
     );
   }
 

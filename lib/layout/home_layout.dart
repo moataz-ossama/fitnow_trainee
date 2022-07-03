@@ -1,6 +1,8 @@
 import 'package:fitnow_trainee/features/freelance/all_offers.dart';
+import 'package:fitnow_trainee/features/freelance/post.dart';
 import 'package:fitnow_trainee/features/login&register/login.dart';
 import 'package:fitnow_trainee/features/login&register/register.dart';
+import 'package:fitnow_trainee/features/messages/chat_webview.dart';
 import 'package:fitnow_trainee/features/workouts/home_screen.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter/cupertino.dart';
@@ -9,7 +11,7 @@ import '../features/freelance/all_trainee_jobs.dart';
 import '../features/freelance/freelance.dart';
 import '../features/messages/all_chats_screen.dart';
 import '../features/messages/trial.dart';
-import '../features/notifications/view_clients_notifications.dart';
+
 import '../features/workouts/workout_fprogram.dart';
 import '../features/workouts/workouts.dart';
 import '../shared/project_colors/colors.dart';
@@ -29,8 +31,8 @@ class _HomeLayoutState extends State<HomeLayout> {
     WorkoutFirstProgram(),
     FreelanceHome(),
     HomeScreen(),
-    CountrySelect(),
-    Alloffers()
+    Chat(),
+    Post()
   ];
 
   @override
@@ -79,17 +81,20 @@ class _HomeLayoutState extends State<HomeLayout> {
               Icons.message,
             ),
             label: 'messages',
+
           ),
           BottomNavigationBarItem(
             icon: Icon(
-              Icons.notifications,
+              Icons.work,
 color: ProjectColors.dark_grey_color,
             ),
-            label: 'notifications',
+            label: 'Post A Job',
             activeIcon: Icon(
-              Icons.notifications,
+              Icons.work,
               color:ProjectColors.green_color ,
+
             ),
+
 
           ),
         ],

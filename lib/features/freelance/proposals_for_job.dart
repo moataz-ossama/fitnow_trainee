@@ -1,37 +1,41 @@
 // @dart=2.9
 import 'package:conditional_builder/conditional_builder.dart';
-import 'package:fitnow_trainee/features/freelance/job_details.dart';
+import 'package:fitnow_trainee/features/freelance/Proposal_description.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
 
-import '../../controller/cubit/all_trainee_jobs/all_trainee_jobs_cubit.dart';
-import '../../controller/cubit/all_trainee_jobs/all_trainee_jobs_states.dart';
-import '../../controller/cubit/coach_packages_controller/coach_packages_cubit.dart';
+import '../../controller/cubit/proposals/proposals_cubit.dart';
+import '../../controller/cubit/proposals/proposals_states.dart';
 import '../../shared/project_colors/colors.dart';
 
-class AllTraineeJobs extends StatefulWidget {
-  const AllTraineeJobs({Key key}) : super(key: key);
+class JobProposals extends StatefulWidget {
+  const JobProposals({Key key}) : super(key: key);
 
   @override
-  State<AllTraineeJobs> createState() => _AllTraineeJobsState();
+  State<JobProposals> createState() => _JobProposalsState();
 }
 
-class _AllTraineeJobsState extends State<AllTraineeJobs> {
+class _JobProposalsState extends State<JobProposals> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      appBar: AppBar(
+          leading: BackButton(color: ProjectColors.white_color),
+          backgroundColor: ProjectColors.green_color,
+          centerTitle: true,
+          title: Text("Job Proposals")),
       body: Container(
         color: Colors.grey[300],
         child: Padding(
-          padding: const EdgeInsets.only(top: 15,left: 10,right: 10),
+          padding: const EdgeInsets.only(top: 15.0,left: 10,right: 10),
           child: BlocProvider(
-            create: (BuildContext context) => AllTraineeJobsCubit(),
-            child: BlocConsumer<AllTraineeJobsCubit, AllTraineeJobsstates>(
+            create: (BuildContext context) => ProposalsCubit(),
+            child: BlocConsumer<ProposalsCubit, Proposalsstates>(
                 builder: (context, state) {
                   return ConditionalBuilder(
-                    condition: AllTraineeJobsCubit.model != null,
+                    condition: ProposalsCubit.model != null,
                     fallback: (context) => Center(child: CircularProgressIndicator()),
                     builder: (context) =>Padding(
                       padding: const EdgeInsets.all(10.0),
@@ -40,21 +44,21 @@ class _AllTraineeJobsState extends State<AllTraineeJobs> {
                           Expanded(
                             child: SingleChildScrollView(
                               child: GridView.count(
-                                  childAspectRatio: 1 / 0.9,
+                                  childAspectRatio: 1 / 1.5,
                                   shrinkWrap: true,
                                   physics: NeverScrollableScrollPhysics(),
                                   crossAxisCount: 1,
                                   children: List.generate(
-                                    AllTraineeJobsCubit.model.data.data.length,
+                                    ProposalsCubit.model.data.proposles.length,
                                         (index) => Column(
                                       children: [
                                         Container(
-                                          height: 300,
+                                          height: 350,
                                           decoration: BoxDecoration(
                                               color: Colors.white,
                                               border: Border.all(
                                                 color: ProjectColors.green_color,
-                                             width: 2 ),
+                                              ),
                                               borderRadius: BorderRadius.circular(10)),
                                           child: Padding(
                                             padding: const EdgeInsets.all(20.0),
@@ -63,8 +67,7 @@ class _AllTraineeJobsState extends State<AllTraineeJobs> {
                                                 Expanded(
                                                   flex: 1,
                                                   child: Text(
-                                                    AllTraineeJobsCubit
-                                                        .model.data.data[index].title,
+                                                    ProposalsCubit.model.data.proposles[index].package.title,
                                                     maxLines: 1,
                                                     overflow: TextOverflow.ellipsis,
                                                     style: TextStyle(
@@ -76,48 +79,49 @@ class _AllTraineeJobsState extends State<AllTraineeJobs> {
                                                 SizedBox(
                                                   height: 10,
                                                 ),
-                                                Row(
-                                                  mainAxisAlignment: MainAxisAlignment.start,
-                                                  children: [
-                                                    Text(
-                                                      "Job Description:",
-                                                      style: TextStyle(
-                                                          fontSize: 16,
-                                                          color:
-                                                          ProjectColors.green_color,
-                                                          fontWeight: FontWeight.bold),
-                                                    ),
-                                                  ],
-                                                ),
-                                                SizedBox(height: 5,),
                                                 Expanded(
                                                   flex: 2,
-                                                  child: Column(
+                                                  child: Row(
                                                     mainAxisAlignment: MainAxisAlignment.start,
                                                     children: [
-                                                      Row(
-                                                        mainAxisAlignment: MainAxisAlignment.start,
-                                                        children: [
-                                                          Expanded(
-                                                            child: Text(
-                                                              AllTraineeJobsCubit
-                                                                  .model
-                                                                  .data
-                                                                  .data[index]
-                                                                  .description ==
-                                                                  null
-                                                                  ? "no specified description"
-                                                                  : AllTraineeJobsCubit.model.data
-                                                                  .data[index].description,
-                                                              maxLines: 4,
-                                                              overflow: TextOverflow.ellipsis,
-                                                              style: TextStyle(
-                                                                  fontSize: 14,
-                                                                  color: ProjectColors
-                                                                      .dark_grey_color),
-                                                            ),
-                                                          ),
-                                                        ],
+                                                      Expanded(
+                                                        child: Text(
+                                                          ProposalsCubit.model.data.proposles[index].package.description ==
+                                                              null
+                                                              ? "no specified description"
+                                                              :  ProposalsCubit.model.data.proposles[index].package.description,
+                                                          maxLines: 3,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color: ProjectColors
+                                                                  .dark_grey_color),
+                                                        ),
+                                                      ),
+                                                    ],
+                                                  ),
+                                                ),
+                                                SizedBox(
+                                                  height: 10,
+                                                ),
+                                                Expanded(
+                                                  flex: 2,
+                                                  child: Row(
+                                                    mainAxisAlignment: MainAxisAlignment.start,
+                                                    children: [
+                                                      Expanded(
+                                                        child: Text(
+                                                          ProposalsCubit.model.data.proposles[index].coverletter ==
+                                                              null
+                                                              ? "no specified cover letter"
+                                                              :  ProposalsCubit.model.data.proposles[index].coverletter,
+                                                          maxLines: 3,
+                                                          overflow: TextOverflow.ellipsis,
+                                                          style: TextStyle(
+                                                              fontSize: 14,
+                                                              color: ProjectColors
+                                                                  .dark_grey_color),
+                                                        ),
                                                       ),
                                                     ],
                                                   ),
@@ -146,6 +150,28 @@ class _AllTraineeJobsState extends State<AllTraineeJobs> {
                                                           child: Row(
                                                             children: [
                                                               Icon(
+                                                                Icons.timer_outlined,
+                                                                color: ProjectColors.green_color,
+                                                              ),
+                                                              SizedBox(
+                                                                width: 5,
+                                                              ),
+                                                              Text(
+                                                                "Duration: ",
+                                                                style: TextStyle(
+                                                                    fontSize: 16,
+                                                                    color:
+                                                                    ProjectColors.green_color,
+                                                                    fontWeight: FontWeight.bold),
+                                                              ),
+                                                              Text(ProposalsCubit.model.data.proposles[index].package.weeks.toString() ),
+                                                              Text(" weeks"),
+                                                            ],
+                                                          )),
+                                                      Expanded(
+                                                          child: Row(
+                                                            children: [
+                                                              Icon(
                                                                 Icons.attach_money,
                                                                 color: ProjectColors.green_color,
                                                               ),
@@ -157,9 +183,7 @@ class _AllTraineeJobsState extends State<AllTraineeJobs> {
                                                                     ProjectColors.green_color,
                                                                     fontWeight: FontWeight.bold),
                                                               ),
-                                                              Text(AllTraineeJobsCubit
-                                                                  .model.data.data[index].price
-                                                                  .toString()),
+                                                              Text(ProposalsCubit.model.data.price.toString()),
                                                               Text(" Egp"),
                                                             ],
                                                           )),
@@ -169,7 +193,7 @@ class _AllTraineeJobsState extends State<AllTraineeJobs> {
                                                 SizedBox(
                                                   height: 10,
                                                 ),
-                                              Expanded(
+                                                Expanded(
                                                   flex: 1,
                                                   child: Row(
                                                     mainAxisAlignment: MainAxisAlignment.center,
@@ -184,46 +208,49 @@ class _AllTraineeJobsState extends State<AllTraineeJobs> {
                                                                 await SharedPreferences
                                                                     .getInstance();
 
-                                                                sharedpref.setString(
-                                                                    'job_price',
-                                                                    AllTraineeJobsCubit
-                                                                        .model.data.data[index].price
-                                                                        .toString());
-                                                                sharedpref.setString(
-                                                                    'job_description',
-                                                                    AllTraineeJobsCubit
-                                                                        .model.data.data[index].description
-                                                                        .toString());
-                                                                sharedpref.setString(
-                                                                    'job_title',
-                                                                    AllTraineeJobsCubit
-                                                                        .model.data.data[index].title
-                                                                        .toString());
-                                                                sharedpref.setInt(
-                                                                    'job_id',
-                                                                    AllTraineeJobsCubit
-                                                                        .model.data.data[index].id
-                                                                        );
-JobDetails.getdata();
-                                                                Get.to(JobDetails());
+                                                                  sharedpref.setString(
+                                                                      'Package_id',
+                                                                      ProposalsCubit.model.data.proposles[index].package.id.toString());
+                                                                  sharedpref.setString(
+                                                                      'proposal_duration',
+                                                                      ProposalsCubit.model.data.proposles[index].package.weeks.toString());
+                                                                  sharedpref.setString(
+                                                                      'propsal_price',
+                                                                      ProposalsCubit.model.data.price.toString());
+                                                                  sharedpref.setString(
+                                                                      'proposal_description',
+                                                                      ProposalsCubit.model.data.proposles[index].package.description);
+                                                                  sharedpref.setString(
+                                                                      'proposal_title',
+                                                                      ProposalsCubit.model.data.proposles[index].package.title);
+                                                                  sharedpref.setString(
+                                                                      'proposal_cover_letter',
+                                                                      ProposalsCubit.model.data.proposles[index].coverletter);
+setState(() {
+  ProposalDescription.getdata();
+
+});
+
+                                                              Get.to(ProposalDescription());
+
+
+
+
 
                                                               },
                                                               child: Text(
-                                                                "View Job Details",
+                                                                "View Proposal Details",
                                                                 style: TextStyle(
                                                                     color: ProjectColors
                                                                         .white_color),
                                                               )),
                                                           decoration: BoxDecoration(
-                                                              color: ProjectColors.green_color,
-                                                              borderRadius: BorderRadius.circular(10)
-                                                          ),
+                                                              color: ProjectColors.green_color),
                                                         ),
                                                       )
                                                     ],
                                                   ),
-                                                ),
-
+                                                )
                                               ],
                                             ),
                                           ),
@@ -241,10 +268,7 @@ JobDetails.getdata();
 
                 listener: (context, state) async {
                   setState(() async {
-                    PackageCubit pc = new PackageCubit();
-                    pc.getcoachpackages();
-                    AllTraineeJobsCubit tj=new AllTraineeJobsCubit();
-                    tj.getallTraineeJobs();
+
                   });
                 }),
           ),

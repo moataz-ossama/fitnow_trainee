@@ -15,25 +15,19 @@ class HomeScreen extends  StatefulWidget {
 class _HomeScreenState extends State<HomeScreen> {
   @override
   Widget build(BuildContext context) {
-    return Container();/* Container(
-      color: Colors.grey[300],
-      child: BlocProvider(
-        create: (BuildContext context) => ProgramsCubit(),
-        child: BlocConsumer<ProgramsCubit, Programstates>(
-            builder: (context, state) {
-              return ConditionalBuilder(
-                condition: ProgramsCubit.model != null,
-                fallback: (context) => Center(child: CircularProgressIndicator()),
-                builder: (context) => programDescriptionbuilder(),
-              );
-            }, listener: (context, state) async {
-          setState(() async {
-            ProgramsCubit pc = new ProgramsCubit();
-            pc.getprogram();
-          });
-        }),
+    return ListView.builder(
+      shrinkWrap: true,
+      itemBuilder: (context, index1) =>Column(
+        children: [
+          Text(ProgramsCubit.model.data.program.days[0].workout.sections[index1].title),
+          ListView.builder(
+            shrinkWrap: true,
+              itemCount: ProgramsCubit.model.data.program.days[0].workout.sections[index1].exercises.length,
+              itemBuilder: (context, index2) => Text(ProgramsCubit.model.data.program.days[0].workout.sections[index1].exercises[index2].details.title.toString()))
+        ],
       ),
-    )*/
+      itemCount: ProgramsCubit.model.data.program.days[0].workout.sections.length,
+    );
   }
 }
 Widget programDescriptionbuilder() =>

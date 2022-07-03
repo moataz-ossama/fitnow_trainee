@@ -1,18 +1,19 @@
 // @dart=2.9
+import 'package:fitnow_trainee/controller/cubit/exercise%20data/exercise_cubit.dart';
 import 'package:fitnow_trainee/features/workouts/exercise_description.dart';
 import 'package:flutter/material.dart';
 import 'package:get/get.dart';
 import 'package:shared_preferences/shared_preferences.dart';
-
 import '../../controller/cubit/trainee_programs/programs_cubit.dart';
 import '../../shared/project_colors/colors.dart';
 import 'exercise_results.dart';
 
 class ExerciseDetails extends StatefulWidget {
   const ExerciseDetails({Key key}) : super(key: key);
-static int ex_id;
-  static int day_id;
+
   @override
+  static int ex_id;
+  static int day_id;
   State<ExerciseDetails> createState() => _ExerciseDetailsState();
 static getdata() async {
   SharedPreferences sharedpref =
@@ -38,7 +39,7 @@ var x=ExerciseDetails.getdata();
         foregroundColor: Colors.grey[600],
         centerTitle: true,
         title: Text(
-        exercise_id.toString()+"/"+ProgramsCubit.model.data.program.days[day_id].workout.workoutExercieses.length.toString(),
+          ProgramsCubit.model.data.program.days[day_id].workout.workoutExercieses[exercise_id].details.title.toString(),
           style: TextStyle(color: ProjectColors.green_color),
         ),
         actions: [
@@ -58,22 +59,32 @@ var x=ExerciseDetails.getdata();
         height: double.infinity,
         color: Colors.grey[200],
         child: Padding(
-          padding: const EdgeInsets.all(40.0),
+          padding: const EdgeInsets.all(20.0),
           child: SingleChildScrollView(
             child: Column(
               children: [
-                Image.asset("assets/images/barbell.png"),
                 Row(
                   children: [
-                    Text("barbell pullover and press"),
-                    IconButton(
-                        onPressed: () {},
-                        icon: Icon(
-                          Icons.info,
-                          color: ProjectColors.green_color,
-                        ))
+                    Expanded(child: Container(height: 200, width:double.infinity , child: Image.network(ExerciseCubit.model.data.images[0]))),
                   ],
                 ),
+                SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("Primary Focus: ",style: TextStyle(color: ProjectColors.green_color,fontWeight: FontWeight.bold,fontSize: 16),),
+                    Text(ExerciseCubit.model.data.primaryFocus)
+                  ],
+                ),
+                SizedBox(height: 20,),
+                Row(
+                  mainAxisAlignment: MainAxisAlignment.start,
+                  children: [
+                    Text("Instructions: ",style: TextStyle(color: ProjectColors.green_color,fontWeight: FontWeight.bold,fontSize: 16),),
+                  ],
+                ),
+                Text(ExerciseCubit.model.data.instructions),
+                SizedBox(height: 20,),
                 Row(
                   children: [
                     Expanded(
@@ -90,18 +101,9 @@ var x=ExerciseDetails.getdata();
                             child: CircleAvatar(
                               backgroundColor: ProjectColors.white_color,
                               radius: 40.0,
-                              child: TextFormField(
-                                textAlignVertical: TextAlignVertical.center,
-                                textAlign: TextAlign.center,
-                                keyboardType: TextInputType.number,
-                                decoration: InputDecoration(
-                                  hintText: '-',
-                                  border: InputBorder.none,
-                                ),
-                                style: TextStyle(
-                                    color: ProjectColors.light_grey_color,
-                                    fontSize: 15),
-                                showCursor: false,
+                              child: Text(
+                                ProgramsCubit.model.data.program.days[0].workout.workoutExercieses[1].sets.length.toString(),
+                                style: TextStyle(color: Colors.grey[600]),
                               ),
                             ),
                           ),
@@ -118,12 +120,11 @@ var x=ExerciseDetails.getdata();
                         ),
                         child: CircleAvatar(
                           backgroundColor: ProjectColors.white_color,
-                          radius: 50.0,
-                          child: Icon(
-                            Icons.lock,
-                            color: ProjectColors.green_color,
-                            size: 40,
-                          ),
+                          radius: 40.0,
+                          child: ProgramsCubit.model.data.program.days[0].workout.workoutExercieses[1].sets.length>0?Text(
+                            ProgramsCubit.model.data.program.days[0].workout.workoutExercieses[1].sets[0].speed.toString(),
+                            style: TextStyle(color: Colors.grey[600]),
+                          ):Text("0",  style: TextStyle(color: Colors.grey[600]),),
                         ),
                       ),
                     ),
@@ -138,66 +139,77 @@ var x=ExerciseDetails.getdata();
                         child: CircleAvatar(
                           backgroundColor: ProjectColors.white_color,
                           radius: 40.0,
-                          child: TextFormField(
-                            textAlign: TextAlign.center,
-                            textAlignVertical: TextAlignVertical.center,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              hintText: '-',
-                              border: InputBorder.none,
-                            ),
-                            style: TextStyle(
-                                color: ProjectColors.light_grey_color,
-                                fontSize: 15),
-                            showCursor: false,
-                          ),
+                          child: ProgramsCubit.model.data.program.days[0].workout.workoutExercieses[1].sets.length>0?Text(
+                            ProgramsCubit.model.data.program.days[0].workout.workoutExercieses[1].sets[0].time.toString(),
+                            style: TextStyle(color: Colors.grey[600]),
+                          ):Text("0",  style: TextStyle(color: Colors.grey[600]),),
                         ),
                       ),
                     ),
                   ],
                 ),
-                SizedBox(
-                  height: 5,
-                ),
+                SizedBox(height: 5,),
                 Row(
                   crossAxisAlignment: CrossAxisAlignment.center,
                   mainAxisAlignment: MainAxisAlignment.center,
                   children: [
                     Expanded(
                         child: Center(
-                      child: Text(
-                        "Repeats Required",
-                        textAlign: TextAlign.center,
-                      ),
-                    )),
+                          child: Text(
+                            "number of sets",
+                            textAlign: TextAlign.center,
+                          ),
+                        )),
                     Expanded(
                         child: Center(
-                            child: Text("Rest", textAlign: TextAlign.center))),
+                            child: Text("time required", textAlign: TextAlign.center))),
                     Expanded(
                         child: Center(
                             child:
-                                Text("Sets Made", textAlign: TextAlign.center)))
+                            Text("tempo", textAlign: TextAlign.center)))
+                  ],
+                ),
+
+                /*   Row(
+                  children: [
+                    Expanded(child: Text("weight in kg")),
+                    Expanded(child: Text("training time duration in minutes "))
                   ],
                 ),
                 SizedBox(
-                  height: 20,
+                  height: 10,
                 ),
+
                 Row(
                   children: [
                     Expanded(
                       flex: 3,
                       child: Container(
                         height: 50,
-                        child: TextFormField(
+                        child:ProgramsCubit.model.data.program.days[day_id].workout.workoutExercieses[exercise_id].sets.length>0? TextFormField(
+                          enabled: false,
                           textAlign: TextAlign.center,
                           textAlignVertical: TextAlignVertical.center,
                           keyboardType: TextInputType.number,
                           decoration: InputDecoration(
-                            hintText: 'Kilo Grams',
+                            hintText:ProgramsCubit.model.data.program.days[day_id].workout.workoutExercieses[exercise_id].sets[0].weight.toString() ,
                             border: OutlineInputBorder(borderSide: BorderSide()),
                           ),
                           style: TextStyle(
-                              color: ProjectColors.light_grey_color,
+                              color: Colors.grey[600],
+                              fontSize: 15),
+                          showCursor: false,
+                        ):TextFormField(
+                          enabled: false,
+                          textAlign: TextAlign.center,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: "not specified",
+                            border: OutlineInputBorder(borderSide: BorderSide()),
+                          ),
+                          style: TextStyle(
+                              color: Colors.grey[600],
                               fontSize: 15),
                           showCursor: false,
                         ),
@@ -207,31 +219,39 @@ var x=ExerciseDetails.getdata();
                       width: 20,
                     ),
                     Expanded(
-                        flex: 3,
-                        child: Container(
-
-                          height: 50,
-                          child: TextFormField(
-                            textAlign: TextAlign.center,
-                            textAlignVertical: TextAlignVertical.center,
-                            keyboardType: TextInputType.number,
-                            decoration: InputDecoration(
-                              hintText: 'Narrow Grip',
-                              border:
-                                  OutlineInputBorder(borderSide: BorderSide()),
-                            ),
-                            style: TextStyle(
-                                color: ProjectColors.light_grey_color,
-                                fontSize: 15),
-                            showCursor: false,
+                      flex: 3,
+                      child: Container(
+                        height: 50,
+                        child:ProgramsCubit.model.data.program.days[day_id].workout.workoutExercieses[exercise_id].sets.length>0? TextFormField(
+                          enabled: false,
+                          textAlign: TextAlign.center,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText:ProgramsCubit.model.data.program.days[day_id].workout.workoutExercieses[exercise_id].sets[0].weight.toString() ,
+                            border: OutlineInputBorder(borderSide: BorderSide()),
                           ),
-                        )),
-                    Expanded(
-                        flex: 1,
-                        child: Icon(
-                          Icons.add_box_rounded,
-                          size: 40,
-                        ))
+                          style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 15),
+                          showCursor: false,
+                        ):TextFormField(
+                          enabled: false,
+                          textAlign: TextAlign.center,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: "not specified",
+                            border: OutlineInputBorder(borderSide: BorderSide()),
+                          ),
+                          style: TextStyle(
+                              color: Colors.grey[600],
+                              fontSize: 15),
+                          showCursor: false,
+                        ),
+                      ),
+                    ),
+
                   ],
                 ),
                 SizedBox(
@@ -241,7 +261,7 @@ var x=ExerciseDetails.getdata();
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(
-                      "Description",
+                      "Description (press to see all details)",
                       style:
                           TextStyle(fontWeight: FontWeight.bold, fontSize: 15),
                     ),
@@ -249,13 +269,17 @@ var x=ExerciseDetails.getdata();
                       height: 10,
                     ),
                      TextButton(
-                       onPressed: () {Get.to(ExerciseDescription());},
+                       onPressed: () {
+                         ExerciseDescription.getdata();
+                         Get.to(ExerciseDescription());},
                        child: Container(
                          width: double.infinity,
                          child: Padding(
                            padding: const EdgeInsets.all(20.0),
                            child: Text(
-                               "The back is the body region between the neck and the gulteal regions",style: TextStyle(color: Colors.black),),
+                             "",
+
+                             style:TextStyle(color: Colors.grey[600]) ,),
                          ),
                          height: 120,
                          decoration: BoxDecoration(
@@ -293,7 +317,7 @@ var x=ExerciseDetails.getdata();
                           borderRadius: BorderRadius.circular(5)),
                     ) )
                   ],
-                )
+                )*/
               ],
             ),
           ),
@@ -302,3 +326,40 @@ var x=ExerciseDetails.getdata();
     );
   }
 }
+/*
+ CircleAvatar(
+                              backgroundColor: ProjectColors.white_color,
+                              radius: 40.0,
+                              child: TextFormField(
+                                textAlignVertical: TextAlignVertical.center,
+                                textAlign: TextAlign.center,
+                                keyboardType: TextInputType.number,
+                                decoration: InputDecoration(
+                                  hintText: '-',
+                                  border: InputBorder.none,
+                                ),
+                                style: TextStyle(
+                                    color: ProjectColors.light_grey_color,
+                                    fontSize: 15),
+                                showCursor: false,
+                              ),
+                         )
+                            */
+/*
+ Container(
+                        height: 50,
+                        child: TextFormField(
+                          textAlign: TextAlign.center,
+                          textAlignVertical: TextAlignVertical.center,
+                          keyboardType: TextInputType.number,
+                          decoration: InputDecoration(
+                            hintText: 'Kilo Grams',
+                            border: OutlineInputBorder(borderSide: BorderSide()),
+                          ),
+                          style: TextStyle(
+                              color: ProjectColors.light_grey_color,
+                              fontSize: 15),
+                          showCursor: false,
+                        ),
+                      )
+ */
